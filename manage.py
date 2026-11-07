@@ -268,14 +268,8 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
             cv_pid.Kp += cfg.CV_PID_P_DELTA
             logger.info("cv pid: p+ %f", cv_pid.Kp)
 
-        add_cv_controller(
-            V, cfg, cv_pid,
-            cfg.CV_CONTROLLER_MODULE,
-            cfg.CV_CONTROLLER_CLASS,
-            cfg.CV_CONTROLLER_INPUTS,
-            cfg.CV_CONTROLLER_OUTPUTS,
-            cfg.CV_CONTROLLER_CONDITION,
-        )
+        add_cnn_controller(
+            V, cfg)
 
         recording_control = ToggleRecording(
             cfg.AUTO_RECORD_ON_THROTTLE, cfg.RECORD_DURING_AI)
@@ -819,6 +813,33 @@ class ToggleRecording:
             return True
         return recording
 
+def add_cnn_controller(V, cfg):
+    from cv_parts.cnn_pilot import CNNPilot
+
+    cnn = CNNPilot(
+        "/home/pi/mycar/vit/models/cnn_steering.pb"
+    )
+
+    V.add(
+        cnn,
+        inputs=["cam/image_array"],
+        outputs=["pilot/angle", "pilot/throttle"],
+        run_condition="run_pilot"
+    )
+
+def add_vit_controller(V, cfg):
+    from cv_parts.vit_pilot import ViTPilot
+
+    vit = ViTPilot(
+        "/home/pi/mycar/vit/models/vit_steering.pb"
+    )
+
+    V.add(
+        vit,
+        inputs=["cam/image_array"],
+        outputs=["pilot/angle", "pilot/throttle"],
+        run_condition="run_pilot"
+    )
 
 def add_cv_controller(
         V, cfg, pid,
@@ -850,3 +871,4 @@ if __name__ == '__main__':
               meta=args['--meta'])
     elif args['train']:
         print('Use python train.py instead.\n')
+
