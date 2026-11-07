@@ -1,0 +1,34 @@
+{
+  "input_shape": [
+    128,
+    160,
+    3
+  ],
+  "predictions": [
+    {
+      "image": "3464_cam_image_array_.jpg",
+      "angle": -0.4734990894794464,
+      "throttle": 0.4074348211288452
+    },
+    {
+      "image": "2908_cam_image_array_.jpg",
+      "angle": -0.7450823187828064,
+      "throttle": 0.40554821491241455
+    },
+    {
+      "image": "3670_cam_image_array_.jpg",
+      "angle": -0.5185218453407288,
+      "throttle": 0.39191168546676636
+    },
+    {
+      "image": "4621_cam_image_array_.jpg",
+      "angle": -0.4200674593448639,
+      "throttle": 0.3947029113769531
+    },
+    {
+      "image": "4820_cam_image_array_.jpg",
+      "angle": -0.017743036150932312,
+      "throttle": 0.3845173716545105
+    }
+  ]
+}
